@@ -174,26 +174,7 @@ define([
 			this.canCopy = ko.computed(() => {
 				return this.currentConceptSet() && this.currentConceptSet().id > 0;
 			});
-
-			GlobalPermissionService.decorateComponent(this, {
-				entityTypeGetter: () => entityType.CONCEPT_SET,
-				entityIdGetter: () => this.currentConceptSet() && this.currentConceptSet().id,
-				createdByUsernameGetter: () => this.currentConceptSet() && this.currentConceptSet().createdBy
-					&& this.currentConceptSet().createdBy.login
-			});
-
-			this.enablePermissionManagement = ko.observable(config.enablePermissionManagement);
-			if (config.enablePermissionManagement) {
-				this.userCanShare = ko.observable(
-					(config.limitedPermissionManagement &&
-					 authApi.isPermittedGlobalShareArtifact()) ||
-					(!config.limitedPermissionManagement &&
-					 this.isOwner())
-				  );
-			} else {
-				this.userCanShare = ko.observable(false);
-			}
-
+			this.enablePermissionManagement = config.enablePermissionManagement;	    
 			this.isSaving = ko.observable(false);
 			this.isDeleting = ko.observable(false);
 			this.isOptimizing = ko.observable(false);
@@ -350,6 +331,13 @@ define([
 			this.selectedTab = ko.observable(0);
 
 			this.activeUtility = ko.observable("");
+
+			GlobalPermissionService.decorateComponent(this, {
+				entityTypeGetter: () => entityType.CONCEPT_SET,
+				entityIdGetter: () => this.currentConceptSet() && this.currentConceptSet().id,
+				createdByUsernameGetter: () => this.currentConceptSet() && this.currentConceptSet().createdBy
+					&& this.currentConceptSet().createdBy.login
+			});
 
 			this.tags = ko.observableArray(this.currentConceptSet() && this.currentConceptSet().tags);
 			TagsService.decorateComponent(this, {
