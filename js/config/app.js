@@ -1,6 +1,3 @@
-// Please remember to update the environmental variables in the Dockerfile and the docker config-local.js to reflect
-// any new settings introduced here
-
 define(function () {
   var appConfig = {};
 
